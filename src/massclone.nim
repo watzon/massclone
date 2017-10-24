@@ -39,8 +39,9 @@ proc fetchReposForUser(username: string, limit: int, private: bool = false): Jso
     var key = getAuthKey()
     if key.isNilOrEmpty(): echo("You haven't authenticated with GitHub yet. Please run the 'auth' command.")
     else:
-      api_hook = api_hook & "&access_token=" & key
+      api_hook = API_BASE / "user/repos?per_page=" & limit.intToStr() & "&access_token=" & key & "&type=all"
   var response = client.getContent(api_hook)
+  echo(api_hook)
   result = parseJson(response)
 
 proc cloneRepos(username: string, destination: string, ssl: bool = false, limit: int = 200, private: bool = false) =
