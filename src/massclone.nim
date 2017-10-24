@@ -1,14 +1,22 @@
 import commandeer, httpclient, json, strutils, gitapi, rdstdin, tables, ospaths
 
+var usageString = """Usage: massclone [options] <username>
+
+Options:
+--help           	- Show this message
+--dest, -d <path>	- Set the destination path
+--limit, -l <int>	- Limit the number of repos to clone
+--ssl, -s <bool>	- Use ssh to pull repos? Requires a private key to be set up.
+
+All options are optional.
+"""
+
 commandline:
   argument username, string
   option destination, string, "dest", "d", "."
-  option repolist, string, "repos", "r"
   option limit, int, "limit", "l", 200
   option usessl, bool, "ssl", "s", false
-  exitoption "help", "h",
-             "Usage: massclone [--dest <=string>|--repos<=string>|--limit <=int>|--ssl <=bool>|--help] " &
-             "<username>"
+  exitoption "help", "h", usageString
   errormsg "You made a mistake!"
 
 var api_hook = "https://api.github.com/users/" & username & "/repos?per_page=" & limit.intToStr()
