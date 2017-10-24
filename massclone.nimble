@@ -13,4 +13,5 @@ bin           = @["massclone"]
 
 requires "nim >= 0.17.2"
 requires "gitapi"
-requires "https://github.com/fenekku/commandeer >= 0.11.0"
+requires "colorize"
+requires "commandeer >= 0.11.0"
