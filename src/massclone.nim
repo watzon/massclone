@@ -34,13 +34,13 @@ proc fetchReposForUser(username: string, limit: int, private: bool = false): Jso
   echo(api_hook)
   result = parseJson(response)
 
-proc cloneRepos(username: string, destination: string, ssl: bool = false, limit: int = 200, private: bool = false) =
+proc cloneRepos(username: string, destination: string, ssh: bool = false, limit: int = 200, private: bool = false) =
   var response = fetchReposForUser(username, limit, private)
   var repos: Table[string, string] = initTable[string, string](nextPowerOfTwo(limit))
   for repo in response:
       var name = repo["full_name"].getStr()
       echo("Queuing " & name)
-      if ssl:
+      if ssh:
           repos.add(name, repo["ssh_url"].getStr())
       else:
           repos.add(name, repo["clone_url"].getStr())
@@ -63,7 +63,7 @@ proc main() =
 
  Usage:
   massclone clone <github username> --dest ./clones
-  massclone clone <github username> --ssl --limit 15
+  massclone clone <github username> --ssh --limit 15
 
   # Authenticate with GitHub to clone private repos
   massclone auth # Authenticate interactively
@@ -76,7 +76,7 @@ Massclone was written by @watzon using Nim. If you find a bug please report it u
   --help           		- Show this message.
   --dest, -d <path>		- Set the destination path.
   --limit, -l <int>		- Limit the number of repos to clone.
-  --ssl, -s <bool>		- Use ssh to pull repos? Requires a private key to be set up.
+  --ssh, -s <bool>		- Use ssh to pull repos? Requires a private key to be set up.
   --private, -p <bool>	- Include private repositories. You will need to authenticate.
   
   All options are optional.
@@ -92,7 +92,7 @@ The auth command allows you to authenticate with GitHub and gives this tool acce
       argument username, string
       option destination, string, "dest", "d", "."
       option limit, int, "limit", "l", 200
-      option usessl, bool, "ssl", "s", false
+      option usessh, bool, "ssh", "s", false
       option private, bool, "private", "p", false
       exitoption "help", "h", cloneUsage
     subcommand auth, "auth":
@@ -101,7 +101,7 @@ The auth command allows you to authenticate with GitHub and gives this tool acce
     errormsg "You made a mistake!"
 
   if clone:
-    cloneRepos(username, destination, usessl, limit, private)
+    cloneRepos(username, destination, usessh, limit, private)
   
   if auth:
     authenticate()
