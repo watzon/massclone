@@ -4,7 +4,7 @@ Massclone is a tool for bulk cloning GitHub repositories. With it you can easily
 
 ## Usage
 
-#### massclone clone <username> [options]
+#### _massclone clone <username> [options]_
 
 Clones any number of git repositories for a particular user.
 
@@ -15,7 +15,7 @@ Clones any number of git repositories for a particular user.
 - --limit, -l - Limit the number of repositories pulled
 - --private, -p - Pull private repositories as well. This will require you to be authenticated.
 
-#### massclone auth
+#### _massclone auth_
 
 Authenticate with GitHub using OAuth2. This is the only way to pull private repositories.
 
