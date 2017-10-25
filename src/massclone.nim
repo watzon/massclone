@@ -4,16 +4,6 @@ const API_BASE = "https://api.github.com/"
 const AUTH_URI = "http://bit.ly/2lblo9n" # "https://github.com/login/oauth/authorize?client_id=413c2fd24e15c914f36a&scope=repo"
 const BANNER = slurp("./banner.txt")
 
-proc askForUsername(): string =
-  result = readLineFromStdin "Please enter your GitHub username: "
-  if result.len < 1:
-    result = askForUsername()
-
-proc askForPassword(): string =
-  result = readPasswordFromStdin "Please enter your GitHub password: "
-  if result.len < 1:
-    result = askForPassword()
-
 proc askForAuthKey(): string =
   result = readLineFromStdin "Please paste the code you were given here: "
   if result.len < 1:

@@ -1,3 +1,4 @@
-./bin/massclone
-./src/nimcache/
+bin/debug
+bin/release
+src/nimcache
 massclone.php
